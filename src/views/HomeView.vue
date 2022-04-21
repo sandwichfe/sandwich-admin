@@ -5,7 +5,7 @@
 
 <script>
 // @ is an alias to /src
-import {getBase} from '@/network/base'
+import {getBase,getIp} from '@/network/base'
 
 
 export default {
@@ -15,9 +15,12 @@ export default {
   },
 
   created(){
+    getIp().then(res=>{
+       this.$message('欢迎回来,你的ip为:'+res.data);
+    })
 
     getBase('p1','p2').then(res=>{
-      console.log(res);
+      // console.log(res);
     });
 
 

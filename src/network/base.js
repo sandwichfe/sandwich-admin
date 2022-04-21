@@ -8,6 +8,13 @@ export function getBase(param1, param2) {
     param1,
     param2,
     }
-  })
+  })}
 
-}
+  export  function getIp() {
+    return request({
+      url: '/base/getRequestIp',
+      params: {          
+      }
+    })
+  }
+
