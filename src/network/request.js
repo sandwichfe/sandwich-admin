@@ -2,7 +2,7 @@ import axios from "axios";
 
 export function request(config){
     const instance = axios.create({
-        baseURL : "http://localhost:8080",
+        baseURL : "http://sandwich160.store:8080",
         timeout:5000,
     })
 
@@ -19,6 +19,10 @@ export function request(config){
      instance.interceptors.response.use(res => {
          return res.data;
      }, err => {
+         if(res.data.code!=200&&res.data.msg){
+            this.$message(res.data.msg);
+            this.$message.error('res.data.msg');
+         }
          console.log(err);
      });    
 
