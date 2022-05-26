@@ -18,3 +18,15 @@ export function getBase(param1, param2) {
     })
   }
 
+  // 访问列表
+  export  function getViewList(pageNum,pageSize) {
+    return request({
+      url: '/base/getViewList',
+      params: {     
+        pageNum,
+        pageSize
+      }
+    })
+  }
+
+
