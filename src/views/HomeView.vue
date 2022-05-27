@@ -2,6 +2,32 @@
   <div class="home">
     <!-- 指定load范围为全屏  滚动也会被遮罩 -->
     <div v-loading.fullscreen.lock="fullscreenLoading"></div>
+
+    <!-- 轮播图 -->
+    <div class="recommendPage">
+      <swiper :options="swiperOption" ref="mySwiper">
+        <swiper-slide>I'm Slide 1</swiper-slide>
+        <swiper-slide>I'm Slide 2</swiper-slide>
+        <swiper-slide>I'm Slide 3</swiper-slide>
+        <div class="swiper-pagination" slot="pagination"></div>
+        <!-- <div class="swiper-button-prev" slot="button-prev"></div> -->
+        <!-- <div class="swiper-button-next" slot="button-next"></div> -->
+      </swiper>
+    </div>
+
+    <!-- 抽屉 -->
+    <div class="drawer-show">
+      <el-button @click="drawer = true" type="plain" class="show-btn">  </el-button>
+
+      <el-drawer
+        title="我是标题"
+        :visible.sync="drawer"
+        :direction="direction"
+        :before-close="handleClose"
+      >
+        <el-button plain @click="gotoView()">我来啦!</el-button>
+      </el-drawer>
+    </div>
   </div>
 </template>
 
@@ -16,7 +42,44 @@ export default {
     return {
       loading: false,
       fullscreenLoading: false,
+
+      // swiper
+      swiperOption: {
+        loop: true,
+        autoplay: {
+          delay: 3000,
+          stopOnLastSlide: false,
+          disableOnInteraction: false,
+        },
+        // 显示分页
+        pagination: {
+          el: ".swiper-pagination",
+          clickable: true, //允许分页点击跳转
+        },
+        // 设置点击箭头
+        navigation: {
+          nextEl: ".swiper-button-next",
+          prevEl: ".swiper-button-prev",
+        },
+      },
+
+      // 抽屉
+      drawer: false, //默认关闭
+      direction: "ltr", //  从左往右展开
     };
+  },
+
+  computed: {
+    swiper() {
+      return this.$refs.mySwiper.swiper;
+    },
+  },
+
+  mounted() {
+    // current swiper instance
+    // 然后你就可以使用当前上下文内的swiper对象去做你想做的事了
+    console.log("this is current swiper instance object", this.swiper);
+    // this.swiper.slideTo(3, 1000, false);
   },
 
   methods: {
@@ -27,19 +90,64 @@ export default {
     closeLoad() {
       this.fullscreenLoading = false;
     },
+
+    handleClose(done) {
+      //关闭
+      done();
+      /*
+         this.$confirm('确认关闭？')
+          .then(_ => {
+            done();
+          })
+          .catch(_ => {});
+        */
+    },
+
+    gotoView() {
+      this.$router.push("/visitorRecord");
+    },
   },
 
   created() {
-    this.openLoad();
-    getIp().then((res) => {
-      this.closeLoad();
-      this.$message("欢迎回来,你的ip为:" + res.data);
-    });
+    // this.openLoad();
+    // getIp().then((res) => {
+    //   this.closeLoad();
+    //   this.$message("欢迎回来,你的ip为:" + res.data);
+    // });
     getBase("p1", "p2").then((res) => {
       // console.log(res);
     });
   },
-
-  mounted() {},
 };
 </script>
+<style scoped >
+.recommendPage {
+  width: 100%;
+  display: none;
+}
+
+.recommendPage img {
+  width: 100%;
+  height: 400px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.recommendPage .swiper-container {
+  position: relative;
+  width: 100%;
+  background: pink;
+}
+.recommendPage .swiper-container .swiper-slide {
+  width: 100%;
+  line-height: 400px;
+  background: rgb(215, 218, 233);
+  color: #000;
+  font-size: 16px;
+  text-align: center;
+}
+
+.show-btn {
+    border: #fff;
+}
+</style>
