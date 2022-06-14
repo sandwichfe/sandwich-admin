@@ -17,7 +17,8 @@
 
     <!-- 抽屉 -->
     <div class="drawer-show">
-      <el-button @click="drawer = true" type="plain" class="show-btn">  </el-button>
+      <el-button @click="drawer = true" type="plain" class="show-btn">
+      </el-button>
 
       <el-drawer
         title="我是标题"
@@ -25,7 +26,49 @@
         :direction="direction"
         :before-close="handleClose"
       >
+        <div class="img-upload">
+          <el-upload action="" list-type="picture-card" 
+          :auto-upload="false"
+          :file-list="imgFileList"
+          :on-change="handleChange">
+            <i slot="default" class="el-icon-plus"></i>
+            <div slot="file" slot-scope="{ file }">
+              <img
+                class="el-upload-list__item-thumbnail"
+                :src="file.url"
+                alt=""
+              />
+              <span class="el-upload-list__item-actions">
+                <span
+                  class="el-upload-list__item-preview"
+                  @click="handlePictureCardPreview(file)"
+                >
+                  <i class="el-icon-zoom-in"></i>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleDownload(file)"
+                >
+                  <i class="el-icon-download"></i>
+                </span>
+                <span
+                  v-if="!disabled"
+                  class="el-upload-list__item-delete"
+                  @click="handleRemove(file)"
+                >
+                  <i class="el-icon-delete"></i>
+                </span>
+              </span>
+            </div>
+          </el-upload>
+          <el-dialog :visible.sync="dialogVisible">
+            <img width="100%" :src="dialogImageUrl" alt="" />
+          </el-dialog>
+        </div>
+
         <el-button plain @click="gotoView()">我来啦!</el-button>
+         <el-button plain @click="submitUpload()">ok</el-button>
       </el-drawer>
     </div>
   </div>
@@ -33,7 +76,7 @@
 
 <script>
 // @ is an alias to /src
-import { getBase, getIp } from "@/network/base";
+import { getBase, getIp,upLoadFile } from "@/network/base";
 
 export default {
   name: "HomeView",
@@ -66,6 +109,12 @@ export default {
       // 抽屉
       drawer: false, //默认关闭
       direction: "ltr", //  从左往右展开
+
+      //upload
+      imgFileList: [],
+      dialogImageUrl: "",
+      dialogVisible: false,
+      disabled:false
     };
   },
 
@@ -106,12 +155,43 @@ export default {
     gotoView() {
       this.$router.push("/visitorRecord");
     },
+
+    // upload
+    handleRemove(file, fileList) {
+    },
+    handlePictureCardPreview(file) {
+      this.dialogImageUrl = file.url;
+      this.dialogVisible = true;
+    },
+
+    //点击上传图片
+			submitUpload() {
+				let formData = new FormData(); //  用FormData存放上传文件
+				this.imgFileList.forEach(file => {
+					console.log(file.raw)
+					console.log(file.size)
+					formData.append('file', file.raw)
+				})
+        upLoadFile(formData).then(res=>{
+          console.log(res);
+        })
+
+
+			},
+
+        // 图片组件改变时触发事件
+        handleChange(file, fileList) {
+        this.imgFileList = fileList.slice(-3);
+      }
+
+
+
   },
 
   created() {
-    // this.openLoad();
+    this.openLoad();
     // getIp().then((res) => {
-    //   this.closeLoad();
+      this.closeLoad();
     //   this.$message("欢迎回来,你的ip为:" + res.data);
     // });
     getBase("p1", "p2").then((res) => {
@@ -148,6 +228,6 @@ export default {
 }
 
 .show-btn {
-    border: #fff;
+  border: #fff;
 }
 </style>

@@ -30,3 +30,15 @@ export function getBase(param1, param2) {
   }
 
 
+// 上传文件
+export function upLoadFile(param) {
+  return request({
+    url: '/base/uploadFile',
+    method: 'post',
+    // params: param,
+    data: param,
+    headers: { 'Content-Type': 'multipart/form-data;charset=utf-8' },
+  })
+
+}
+
