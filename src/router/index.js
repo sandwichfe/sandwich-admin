@@ -27,7 +27,12 @@ const routes = [
     path:'/visitorRecord',
     name:'visitorRecord',
     component:()=>import('../views/VisitorRecord.vue')
-  }
+  }, 
+  {
+    path: '/login',
+    name: 'login',
+    component: ()=>import('../views/login.vue')
+  },
 ]
 
 const router = new VueRouter({

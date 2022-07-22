@@ -10,6 +10,18 @@ export function getBase(param1, param2) {
     }
   })}
 
+  export  function login(username,password) {
+    return request({
+      url: '/login',
+      method:'post',
+      params: {     
+        username,
+        password
+      }
+    })
+  }
+
+
   export  function getIp() {
     return request({
       url: '/base/getRequestIp',
@@ -39,6 +51,8 @@ export function upLoadFile(param) {
     data: param,
     headers: { 'Content-Type': 'multipart/form-data;charset=utf-8' },
   })
+  
+
 
 }
 

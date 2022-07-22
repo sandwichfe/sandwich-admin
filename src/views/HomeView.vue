@@ -190,12 +190,9 @@ export default {
 
   created() {
     this.openLoad();
-    // getIp().then((res) => {
+    getIp().then((res) => {
       this.closeLoad();
-    //   this.$message("欢迎回来,你的ip为:" + res.data);
-    // });
-    getBase("p1", "p2").then((res) => {
-      // console.log(res);
+      this.$message("欢迎回来,你的ip为:" + res.data);
     });
   },
 };
