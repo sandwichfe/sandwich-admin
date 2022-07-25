@@ -11,9 +11,16 @@ import  'element-ui/lib/theme-chalk/index.css';
 import vueSwiper from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
 
+// js-cookie
+import Cookies from 'js-cookie'
+
+
+
 Vue.use(ElementUI);
 
 Vue.use(vueSwiper)
+
+Vue.use(Cookies);
 
 
 Vue.config.productionTip = false

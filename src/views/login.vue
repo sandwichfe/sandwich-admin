@@ -36,6 +36,7 @@
 <script>
 import { login } from "@/network/base";
 import { store } from "@/store/index";
+import Cookies from 'js-cookie'
 export default {
   name: "Login",
   data() {
@@ -53,7 +54,9 @@ export default {
         console.log(res);
         if (res) {
           if (res.code == 200) {
-            this.$store.commit("setNewToken", res.data);
+            // this.$store.commit("setNewToken", res.data);
+            Cookies.remove("loginToken");  
+            Cookies.set("loginToken",res.data,{ expires: 7 }); //存cookies  过期时间为7天
             this.$router.push("/")
             this.$message.success(res.msg)
           }
