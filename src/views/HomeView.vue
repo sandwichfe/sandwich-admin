@@ -191,8 +191,10 @@ export default {
   created() {
     this.openLoad();
     getIp().then((res) => {
+      if(res){
       this.closeLoad();
       this.$message("欢迎回来,你的ip为:" + res.data);
+      }
     });
   },
 };

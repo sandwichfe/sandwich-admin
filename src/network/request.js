@@ -6,8 +6,8 @@ import router from "@/router";
 
 export function request(config){
     const instance = axios.create({
-        baseURL : "http://sandwich160.store:8080",
-        // baseURL : "http://localhost:8080",
+        // baseURL : "http://49.235.82.74:8080",
+        baseURL : "http://localhost:8080",
         timeout:5000,
     })
 
@@ -31,6 +31,7 @@ export function request(config){
      // 响应式拦截
      instance.interceptors.response.use(res => {
         console.log(res);
+        debugger
          if(401==res.data.code) {
             Message(res.data.msg);
             router.push("/login")
