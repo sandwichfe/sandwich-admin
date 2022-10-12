@@ -31,7 +31,6 @@ export function request(config){
      // 响应式拦截
      instance.interceptors.response.use(res => {
         console.log(res);
-        debugger
          if(401==res.data.code) {
             Message(res.data.msg);
             router.push("/login")

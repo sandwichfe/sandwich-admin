@@ -51,8 +51,14 @@ export function upLoadFile(param) {
     data: param,
     headers: { 'Content-Type': 'multipart/form-data;charset=utf-8' },
   })
-  
+}
 
-
+// 服务器信息
+export  function getServer() {
+  return request({
+    url: '/monitor/server',
+    params: {          
+    }
+  })
 }
 

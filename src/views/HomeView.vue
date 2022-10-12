@@ -68,6 +68,7 @@
         </div>
 
         <el-button plain @click="gotoView()">我来啦!</el-button>
+        <el-button plain @click='$router.push("/sysInfo");'>sys</el-button>
          <el-button plain @click="submitUpload()">ok</el-button>
       </el-drawer>
     </div>

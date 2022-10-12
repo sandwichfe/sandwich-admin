@@ -33,6 +33,11 @@ const routes = [
     name: 'login',
     component: ()=>import('../views/login.vue')
   },
+  {
+    path: '/sysInfo',
+    name: 'sysInfo',
+    component: ()=>import('../views/server/index.vue')
+  },
 ]
 
 const router = new VueRouter({
