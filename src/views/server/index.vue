@@ -3,37 +3,10 @@
     <!-- 指定load范围为全屏  滚动也会被遮罩 -->
     <div v-loading.fullscreen.lock="fullscreenLoading"></div>
     <el-row>
-      <el-col :span="12" class="card-box">
+
+      <el-col :span="12"  class="card-box">
         <el-card>
-          <div slot="header"><span>CPU</span></div>
-          <div class="el-table el-table--enable-row-hover el-table--medium">
-            <table cellspacing="0" style="width: 100%;">
-              <thead>
-                <tr>
-                  <th class="el-table__cell is-leaf"><div class="cell">属性</div></th>
-                  <th class="el-table__cell is-leaf"><div class="cell">值</div></th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">核心数</div></td>
-                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.cpu">{{ server.cpu.cpuNum }}</div></td>
-                </tr>
-                <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">用户使用率</div></td>
-                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.cpu">{{ server.cpu.used }}%</div></td>
-                </tr>
-                <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">系统使用率</div></td>
-                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.cpu">{{ server.cpu.sys }}%</div></td>
-                </tr>
-                <tr>
-                  <td class="el-table__cell is-leaf"><div class="cell">当前空闲率</div></td>
-                  <td class="el-table__cell is-leaf"><div class="cell" v-if="server.cpu">{{ server.cpu.free }}%</div></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+      <div id="ec" style=" height: 280px"></div>
         </el-card>
       </el-col>
 
@@ -186,11 +159,48 @@ export default {
       // 服务器信息
       server: [],
       fullscreenLoading: false,
+      option : {
+          title: {
+          text: 'CPU',
+          subtext: '',
+          left: 'center'
+        },
+        tooltip: {
+          trigger: 'item'
+        },
+        legend: {
+          orient: 'vertical',
+          left: 'left'
+        },
+        series: [
+          {
+            name: 'cpu使用情况',
+            type: 'pie',
+            radius: ['40%', '70%'],
+            data: [
+              { value: 0, name: '用户使用率' },
+              { value: 0, name: '系统使用率' },
+              { value: 0, name: '当前空闲率' },
+            ],
+            emphasis: {
+              itemStyle: {
+                shadowBlur: 10,
+                shadowOffsetX: 0,
+                shadowColor: 'rgba(0, 0, 0, 0.5)'
+              }
+            }
+          }
+        ]
+    },
+    // 
+
     };
   },
   created() {
     this.getList();
     this.openLoading();
+  },
+  mounted() {
   },
   methods: {
     /** 查询服务器信息 */
@@ -199,13 +209,24 @@ export default {
         if(res){
         this.server = res.data;
         this.fullscreenLoading = false;
+        this.drawChart();
         }
       });
     },
     // 打开加载层
     openLoading() {
       this.fullscreenLoading = true;
-    }
+    },
+        drawChart() {
+      // 基于准备好的dom，初始化echarts实例  这个和上面的main对应
+      let myChart = this.$echarts.init(document.getElementById("ec"));
+      // 使用刚指定的配置项和数据显示图表。
+      this.option.series[0].data[0].value = this.server.cpu.used
+      this.option.series[0].data[1].value = this.server.cpu.sys
+      this.option.series[0].data[2].value = this.server.cpu.free
+      myChart.setOption(this.option);
+    },
+
   }
 };
 </script>

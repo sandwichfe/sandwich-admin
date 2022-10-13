@@ -14,6 +14,9 @@ import 'swiper/dist/css/swiper.css'
 // js-cookie
 import Cookies from 'js-cookie'
 
+//echarts
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 
 
 Vue.use(ElementUI);
@@ -21,6 +24,7 @@ Vue.use(ElementUI);
 Vue.use(vueSwiper)
 
 Vue.use(Cookies);
+
 
 
 Vue.config.productionTip = false
