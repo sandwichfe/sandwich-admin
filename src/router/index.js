@@ -38,6 +38,11 @@ const routes = [
     name: 'sysInfo',
     component: ()=>import('../views/server/index.vue')
   },
+  {
+    path: '/tool',
+    name: 'tool',
+    component: ()=>import('../views/tool.vue')
+  },
 ]
 
 const router = new VueRouter({

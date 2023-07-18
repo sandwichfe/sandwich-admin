@@ -62,3 +62,23 @@ export  function getServer() {
   })
 }
 
+
+export function propToYml(propStr) {
+  return request({
+    url: '/formatConvert/propToYml',
+    method: 'post',
+    params: {
+      propStr
+    },
+  })
+  }
+
+  export function ymlToProp(ymlStr) {
+    return request({
+      url: '/formatConvert/ymlToProp',
+      method: 'post',
+      params: {
+        ymlStr
+      },
+    })
+  }

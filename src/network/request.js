@@ -6,8 +6,8 @@ import router from "@/router";
 
 export function request(config){
     const instance = axios.create({
-        baseURL : "http://49.235.82.74:8080",
-        // baseURL : "http://localhost:8080",
+        //baseURL : "http://49.235.82.74:8080",
+         baseURL : "http://localhost:8089",
         timeout:5000,
     })
 
