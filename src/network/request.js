@@ -4,11 +4,13 @@ import { Message } from "element-ui";
 import Cookies from 'js-cookie'
 import router from "@/router";
 
+
+let baseurl = process.env.VUE_APP_BASE_API;
+
 export function request(config){
     const instance = axios.create({
-        //baseURL : "http://49.235.82.74:8080",
-         baseURL : "http://localhost:8089",
-        timeout:5000,
+         baseURL :baseurl,
+         timeout:5000,
     })
 
     //请求拦截器

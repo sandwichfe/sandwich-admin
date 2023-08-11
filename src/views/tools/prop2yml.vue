@@ -1,7 +1,11 @@
 <template>
   <div class="main" >
     
-    <div class = "left " >
+    <div class = "left textBox" >
+        <click-copy-button class="copyButton"
+      :copyText = codeLeft>copy
+      </click-copy-button>
+
           <prism-editor class="my-editor scorll-appearance" 
       v-model="codeLeft" 
       :highlight="highlighter" 
@@ -9,6 +13,7 @@
       :line-numbers="true"
       placeholder="properties文件内容:" >
       </prism-editor>
+      
     </div>
 
     <div class="buttonBox">
@@ -31,7 +36,11 @@
         </div>
     </div>
       
-     <div class = "right ">
+     <div class = "right textBox">
+        <click-copy-button class = "copyButton"
+      :copyText = codeRight>copy
+      </click-copy-button>
+      
         <prism-editor class="my-editor scorll-appearance" 
       v-model="codeRight" 
       :highlight="highlighter" 
@@ -39,8 +48,8 @@
       :line-numbers="true"
       placeholder="yml文件内容:" >
       </prism-editor>
-
      </div>
+
   </div>
 </template>
  
@@ -50,20 +59,27 @@ import 'vue-prism-editor/dist/prismeditor.min.css';
 import { highlight, languages } from 'prismjs/components/prism-core';
 import 'prismjs/components/prism-clike';
 import 'prismjs/components/prism-javascript';
+// import 'prismjs/themes/prism.css';  // 如果想代码换个样式风格，把这个注释了，下面的三个放开一个
 // import 'prismjs/themes/prism-solarizedlight.css';  // 代码的其他样式风格
-// import 'prismjs/themes/prism-coy.css';
-// import 'prismjs/themes/prism-tomorrow.css';
-import 'prismjs/themes/prism.css';  // 如果想代码换个样式风格，把这个注释了，上面的三个放开一个
+import 'prismjs/themes/prism-tomorrow.css';
+
 import { propToYml, ymlToProp } from "@/network/base";
+import ClickCopyButton from '@/components/ClickCopyButton'
 export default {
-  components: { PrismEditor },
+  components: 
+  { PrismEditor,
+    ClickCopyButton,
+  },
   data(){
     return {
       codeLeft: '',
       codeRight: '',
     }
   },
-  created(){},
+  created(){
+      // 加载头部
+      // this.$emit('header', true);
+  },
   mounted() {
     window.addEventListener('keydown', this.handleEvent)
 },
@@ -112,15 +128,18 @@ export default {
 
 <style lang="less" scoped>
     .main {
+        margin: auto;
+        width: 1800px;
+        height: 850px;
         display: flex;
         justify-content: space-between;
+        // border: #007bff 1px solid;
     }
 
     .buttonBox {
         display: flex;
         flex-direction:column;
         height: 150px;
-        width: 82px;
         // border: #000 solid 1px;
     }
 
@@ -130,8 +149,8 @@ export default {
     }
 
     .converButtonDiv button {
+        width: 50px;
         height: 30px;
-        width: 100%;
         text-decoration: none;
         color: #333;
         background-color: #fff;
@@ -168,10 +187,10 @@ export default {
     font-family: Fira code, Fira Mono, Consolas, Menlo, Courier, monospace;
     font-size: 16px;
     line-height: 1.5;
-    padding: 5px;
-    font-weight: 500;
-    height: 600px;
-    width: 800px;
+    // padding: 5px;
+    // font-weight: 500;
+    // height: 600px;
+    width: 875px;
     border: solid 0.8px #e2e7ec;
     border-top: none;
   }
@@ -190,5 +209,28 @@ export default {
   .my-editor /deep/ .prism-editor__line-numbers{
     padding-right: 10px;
   }
+
+  .copyButton {
+    width: 60px;
+    height: 30px;
+    display: none;
+    text-decoration: none;
+    color: #bc8d8d;
+    background-color: #bbc4c28c;
+    border: #e3e3e3 solid 1px;
+    border-radius: 5px;
+    cursor: pointer;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05), 0 2px 4px rgba(0,0,0,0.05);
+  }
+  .main :hover .copyButton {
+    display: block;
+    position: absolute;
+    right: 0;
+    z-index: 10;
+  }
+  .textBox {
+      position: relative;
+  }
+
 </style>
  
