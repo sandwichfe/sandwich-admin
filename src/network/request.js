@@ -34,7 +34,7 @@ export function request(config){
      instance.interceptors.response.use(res => {
          if(401==res.data.code) {
             Message(res.data.msg);
-            router.push("/login")
+            router.push("/login",()=>{})
          }
          return res.data;
      }, err => {
